@@ -1,16 +1,20 @@
-import bs4, requests
+import bs4
+import requests
 
-def getBHPrice(productURL):
-    res = requests.get(productURL)
-    res.raise_for_status()
-
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-    priceList = soup.select('.price_1DPoToKrLP8uWvruGqgtaY')
-    # first element
-    return priceList[0].text.strip()
+# grabs the price of an item on the bhphotovideo.com website.
 
 
+def get_bh_price(product_url):
+    result = requests.get(product_url)
+    result.raise_for_status()
+
+    soup = bs4.BeautifulSoup(result.text, 'html.parser')
+    price_list = soup.select('.price_1DPoToKrLP8uWvruGqgtaY')
+    # grab first element
+    return price_list[0].text.strip()
 
 
-price = getBHPrice('https://www.bhphotovideo.com/c/product/1582549-REG/sony_wh1000xm4_b_wh_1000xm4_wireless_noise_canceling_over_ear.html')
+price = get_bh_price(
+    'https://www.bhphotovideo.com/c/product/1495319-REG'
+    '/sony_wf1000xm3_b_wf1000xm3_wireless_noise_canceling_headphones.html')
 print('The current price is ' + price)
